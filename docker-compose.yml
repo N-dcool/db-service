@@ -18,9 +18,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.db-api.rule=Host(`${PUBLIC_HOST}`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.db-api.entrypoints=websecure"
-      - "traefik.http.routers.db-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.db-api.entrypoints=web"
       - "traefik.http.services.db-api.loadbalancer.server.port=3001"
+      - "com.centurylinklabs.watchtower.enable=true"
+    
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LABEL_ENABLE=true
+    networks:
+      - proxy  
 
 networks:
   proxy:
