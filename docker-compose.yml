@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db-api:
+    image: ${DOCKERHUB_USERNAME}/db-service:latest
+    container_name: db-api
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - db-data:/app/data
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - PUBLIC_HOST=${PUBLIC_HOST}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - PORT=3001
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.db-api.rule=Host(`${PUBLIC_HOST}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.db-api.entrypoints=websecure"
+      - "traefik.http.routers.db-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.db-api.loadbalancer.server.port=3001"
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  db-data:   
