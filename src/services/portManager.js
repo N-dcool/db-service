@@ -1,4 +1,4 @@
-const dp = require('../db/sqlite');
+const db = require('../db/sqlite');
 
 const PORT_MIN = 5433;
 const PORT_MAX = 5532;
@@ -16,4 +16,4 @@ function getAvailablePort() {
     return null;
 }
 
-module.exports = getAvailablePort;
+module.exports = { getAvailablePort };

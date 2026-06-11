@@ -6,7 +6,7 @@ const db = require('../db/sqlite');
 const TTL_HOURS = 24;
 
 async function databasesRoutes(fastify) {
-    fastify.post('/create', { preHandler: [fastify.authenticate]}, async (requestAnimationFrame, reply) =>{
+    fastify.post('/create', { preHandler: [fastify.authenticate]}, async (request, reply) =>{
         const userId = request.user.sub;
 
         const existing = db.prepare('SELECT * FROM databases WHERE user_id = ?').get(userId);
@@ -31,7 +31,7 @@ async function databasesRoutes(fastify) {
 
         const containerId = await provisionDatabase({userId, dbName, dbPassword, hostPort: port});
 
-        db.prepare(`INSERT INTO databases (id, user_id, container_id, db_name, db_password, host_port, expires_at) VALUE (?,?,?,?,?,?,?)`)
+        db.prepare(`INSERT INTO databases (id, user_id, container_id, db_name, db_password, host_port, expires_at) VALUES (?,?,?,?,?,?,?)`)
             .run(id, userId, containerId, dbName, dbPassword, port, expiresAt);
 
         const host = process.env.PUBLIC_HOST || 'localhost';
@@ -45,7 +45,7 @@ async function databasesRoutes(fastify) {
             username: 'dbuser',
             password: dbPassword,
             expires_at: expiresAt,
-            exppires_in_hours: TTL_HOURS
+            expires_in_hours: TTL_HOURS
         });
     });
 

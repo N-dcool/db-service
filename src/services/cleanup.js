@@ -1,4 +1,4 @@
-const cron = required('node-cron');
+const cron = require('node-cron');
 const { destroyDatabase } = require('./docker');
 const db = require('../db/sqlite');
 

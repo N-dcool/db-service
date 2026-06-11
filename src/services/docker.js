@@ -1,6 +1,6 @@
 const Docker = require('dockerode');
 
-const docker = new Docker({socketPath: 'var/run/docker.sock'});
+const docker = new Docker({socketPath: '/var/run/docker.sock'});
 
 async function provisionDatabase({ userId, dbName, dbPassword, hostPort }) {
     const container = await docker.createContainer({

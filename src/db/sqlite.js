@@ -15,7 +15,7 @@ const CREATE_USERS_AND_DATABASES_TABLE = `
         id TEXT PRIMARY KEY,
         email TEXT UNIQUE NOT NULL,
         password_hash TEXT NOT NULL,
-        create_at INTEGER DEFAULT (unixepoch())
+        created_at INTEGER DEFAULT (unixepoch())
     );
 
     CREATE TABLE IF NOT EXISTS databases (
@@ -23,7 +23,7 @@ const CREATE_USERS_AND_DATABASES_TABLE = `
         user_id TEXT NOT NULL,
         container_id TEXT NOT NULL,
         db_name TEXT NOT NULL,
-        do_password TEXT NOT NULL,
+        db_password TEXT NOT NULL,
         host_port INTEGER NOT NULL,
         expires_at INTEGER NOT NULL,
         created_at INTEGER DEFAULT (unixepoch()),
