@@ -1,0 +1,21 @@
+node_modules/
+data/
+.env
+
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Caches and Coverage
+.npm/
+.eslintcache/
+.nyc_output/
+coverage/
+
+# OS and IDE files
+.DS_Store
+.idea/
+.vscode/
+*.swp
