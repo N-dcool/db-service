@@ -15,7 +15,6 @@ async function provisionDatabase({ userId, dbName, dbPassword, hostPort }) {
         HostConfig: {
             PortBindings: {'5432/tcp' : [{hostPort: String(hostPort)}]},
             Memory: 128 * 1024 * 1024,
-            NetworkMode: 'none',
             Ulimits: [{ Name: 'nofile', Soft: 64, Hard: 64}]
         }
     });
