@@ -11,13 +11,14 @@ services:
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - PUBLIC_HOST=${PUBLIC_HOST}
+      - BACKEND_HOST=${BACKEND_HOST}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
       - PORT=3001
     networks:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.db-api.rule=Host(`${PUBLIC_HOST}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.db-api.rule=Host(`${PUBLIC_HOST}`) || Host(`${BACKEND_HOST}`) && PathPrefix(`/api`)"
       - "traefik.http.routers.db-api.entrypoints=web"
       - "traefik.http.services.db-api.loadbalancer.server.port=3001"
       - "com.centurylinklabs.watchtower.enable=true"
