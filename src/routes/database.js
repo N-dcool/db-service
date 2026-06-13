@@ -5,6 +5,7 @@ const { getAvailablePort } = require("../services/portManager");
 const db = require("../db/sqlite");
 
 const TTL_HOURS = 24;
+const PG_HOST = process.env.PG_HOST || "host.docker.internal";
 const TABLES_QUERY = `
       SELECT 
         t.table_name, c.column_name, c.data_type, c.is_nullable
@@ -136,7 +137,7 @@ async function databasesRoutes(fastify) {
         return reply.code(404).send({ error: "No active database found" });
       }
 
-      const connectionString = `postgresql://dbuser:${record.db_password}@localhost:${record.host_port}/${record.db_name}`;
+      const connectionString = `postgresql://dbuser:${record.db_password}@${PG_HOST}:${record.host_port}/${record.db_name}`;
       const client = new Client({
         connectionString,
         connectionTimeoutMillis: 5000,
@@ -187,7 +188,7 @@ async function databasesRoutes(fastify) {
         return reply.code(404).send({ error: "No active database found" });
       }
 
-      const connectionString = `postgresql://dbuser:${record.db_password}@localhost:${record.host_port}/${record.db_name}`;
+      const connectionString = `postgresql://dbuser:${record.db_password}@${PG_HOST}:${record.host_port}/${record.db_name}`;
       const client = new Client({
         connectionString,
         connectionTimeoutMillis: 5000,
