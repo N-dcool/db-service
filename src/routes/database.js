@@ -199,7 +199,7 @@ async function databasesRoutes(fastify) {
         const result = await client.query(sql);
         return reply.send({
           rows: result.rows,
-          fields: result.fields.map((f) => f.name),
+          fields: (result.fields || []).map((f) => f.name),
           rowCount: result.rowCount ?? 0,
         });
       } catch (err) {
